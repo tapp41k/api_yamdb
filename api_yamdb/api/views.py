@@ -1,10 +1,12 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, viewsets
+from rest_framework import filters, viewsets, pagination
 from reviews.models import Category, Genre, Title
 
 from .permission import IsAdminOrReadOnly
-from .serializers import (CategoriesSerializer, GenresSerializer,
-                          TitleSerializer)
+from .serializers import (CategoriesSerializer,
+                          GenresSerializer,
+                          TitleSerializer,
+                          TitleSerializerForCreate)
 
 
 class TitleViewSet(viewsets.ModelViewSet):
@@ -12,12 +14,13 @@ class TitleViewSet(viewsets.ModelViewSet):
     serializer_class = TitleSerializer
 
     permission_classes = [IsAdminOrReadOnly]
+    pagination_class = pagination.LimitOffsetPagination
 
     filter_backends = (DjangoFilterBackend,)
     filterset_fields = ('name', 'year', 'genre', 'category')
 
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
+    def perform_create(self):
+        return TitleSerializerForCreate
 
 
 class GenreViewSet(viewsets.ReadOnlyModelViewSet):
@@ -25,6 +28,7 @@ class GenreViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = GenresSerializer
 
     permission_classes = [IsAdminOrReadOnly]
+    pagination_class = pagination.LimitOffsetPagination
 
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name',)
@@ -35,6 +39,7 @@ class CategoriesViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = CategoriesSerializer
 
     permission_classes = [IsAdminOrReadOnly]
+    pagination_class = pagination.LimitOffsetPagination
 
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name',)
