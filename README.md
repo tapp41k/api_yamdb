@@ -71,13 +71,6 @@ python3 -m pip install --upgrade pip
 ```
 python manage.py makemigrations
 ```
-
-Выполнить миграции:
-
-```
-python manage.py migrate
-```
-
 - Для Linux, MacOS
 ```
 python3 manage.py makemigrations
@@ -85,6 +78,12 @@ python3 manage.py makemigrations
 
 Выполнить миграции:
 
+- Для Windows
+```
+python manage.py migrate
+```
+
+- Для Linux, MacOS
 ```
 python3 manage.py migrate
 ```
