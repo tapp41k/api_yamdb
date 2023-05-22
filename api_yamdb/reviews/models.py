@@ -13,16 +13,16 @@ class Review(models.Model):
     оценку для конкретного произведения).
     """
     title = models.ForeignKey(
-        Title,
+        User,
         on_delete=models.CASCADE,
-        related_name='reviews',
+        related_name='reviews_title',
         verbose_name='Произведение'
     )
     text = models.TextField()
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='reviews',
+        related_name='reviews_author',
         verbose_name='Автор'
     )
     score = models.IntegerField(

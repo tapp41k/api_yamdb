@@ -28,6 +28,7 @@ class CommentAdmin(admin.ModelAdmin):
     list_filter = ('review',)
     empty_value_display = '-пусто-'
 
+
 admin.site.register(Category)
 admin.site.register(Title)
 admin.site.register(Genre)
