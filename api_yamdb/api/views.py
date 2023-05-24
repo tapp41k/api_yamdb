@@ -12,7 +12,10 @@ from .serializers import (CategoriesSerializer,
                           TitleSerializer,
                           TitleSerializerForCreate,
                           ReviwSerializer,
-                          CommentSerializer)
+                          CommentSerializer,
+                          TitleSerializerForRetrieve)
+
+from .mixins import CreateListDestroyViewSet
 
 
 class TitleViewSet(viewsets.ModelViewSet):
@@ -25,11 +28,15 @@ class TitleViewSet(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filterset_fields = ('name', 'year', 'genre', 'category')
 
-    def perform_create(self):
-        return TitleSerializerForCreate
+    def get_serializer_class(self):
+        if self.action in ('create', 'update'):
+            return TitleSerializerForCreate
+        if self.action == 'retrieve':
+            return TitleSerializerForRetrieve
+        return TitleSerializer
 
 
-class GenreViewSet(viewsets.ReadOnlyModelViewSet):
+class GenreViewSet(CreateListDestroyViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenresSerializer
 
@@ -38,9 +45,10 @@ class GenreViewSet(viewsets.ReadOnlyModelViewSet):
 
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name',)
+    lookup_field = "slug"
 
 
-class CategoriesViewSet(viewsets.ReadOnlyModelViewSet):
+class CategoriesViewSet(CreateListDestroyViewSet):
     queryset = Category.objects.all()
     serializer_class = CategoriesSerializer
 
@@ -49,6 +57,7 @@ class CategoriesViewSet(viewsets.ReadOnlyModelViewSet):
 
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name',)
+    lookup_field = "slug"
 
 
 class ReviewViewSet(viewsets.ModelViewSet):
