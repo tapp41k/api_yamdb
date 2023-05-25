@@ -26,12 +26,14 @@ class CategoriesSerializer(serializers.ModelSerializer):
 
 class TitleSerializer(serializers.ModelSerializer):
     genre = GenresSerializer(many=True,)
-    category = CategoriesSerializer()
+    category = CategoriesSerializer(many=False,)
+    rating = serializers.IntegerField(
+        source='reviews_title__score__avg', read_only=True
+    )
 
     class Meta:
         model = Title
-        fields = ('id', 'name', 'year', 'category', 'genre', 'rating',
-                  'description')
+        fields = '__all__'
 
 
 class TitleSerializerForCreate(serializers.ModelSerializer):
@@ -44,7 +46,7 @@ class TitleSerializerForCreate(serializers.ModelSerializer):
 
     class Meta:
         model = Title
-        fields = ('id', 'name', 'year', 'category', 'genre')
+        fields = '__all__'
 
 
 class TitleSerializerForRetrieve(serializers.ModelSerializer):
