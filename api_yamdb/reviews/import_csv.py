@@ -33,6 +33,7 @@ def import_category():
             to_db)
         con.commit()
         con.close()
+        print(f'БД {name_file_category} успешно импортирована')
 
 
 # id,name,slug
@@ -56,6 +57,7 @@ def import_genre():
             to_db)
         con.commit()
         con.close()
+        print(f'БД {name_file_category} успешно импортирована')
 
 
 # id,review_id,text,author,pub_date
@@ -63,11 +65,11 @@ def import_comments():
     con = sqlite3.connect(path_for_db)
     cur = con.cursor()
     try:
-        cur.execute("""CREATE TABLE reviews_comments (
+        cur.execute("""CREATE TABLE reviews_comment (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             review_id INTEGER,
             text TEXT,
-            author TEXT,
+            author_id TEXT,
             pub_date TEXT)""")
     except sqlite3.OperationalError as error:
         print(f'таблица Комментарии уже существует, новую не создаем: {error}')
@@ -82,12 +84,13 @@ def import_comments():
                  i['pub_date']) for i in dr]
 
         cur.executemany(
-            "INSERT INTO reviews_comments "
-            "(id, review_id, text, author, pub_date)"
+            "INSERT INTO reviews_comment "
+            "(id, review_id, text, author_id, pub_date)"
             "VALUES (?, ?, ?, ?, ?);",
             to_db)
         con.commit()
         con.close()
+        print(f'БД {name_file_category} успешно импортирована')
 
 
 # id,title_id,genre_id
@@ -112,6 +115,7 @@ def import_genre_title():
             to_db)
         con.commit()
         con.close()
+        print(f'БД {name_file_category} успешно импортирована')
 
 
 # id,title_id,text,author,score,pub_date
@@ -123,7 +127,7 @@ def import_review():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title_id INTEGER,
             text TEXT,
-            author TEXT,
+            author_id TEXT,
             score INTEGER,
             pub_date TEXT)""")
     except sqlite3.OperationalError as error:
@@ -141,11 +145,12 @@ def import_review():
 
         cur.executemany(
             "INSERT INTO reviews_review "
-            "(id, title_id, text, author, score, pub_date) "
+            "(id, title_id, text, author_id, score, pub_date) "
             "VALUES (?, ?, ?, ?, ?, ?);",
             to_db)
         con.commit()
         con.close()
+        print(f'БД {name_file_category} успешно импортирована')
 
 
 # id,name,year,category
@@ -171,10 +176,11 @@ def import_titles():
 
         cur.executemany(
             "INSERT INTO reviews_title (id, name, year, category_id) "
-            "VALUES (?, ?, ?, ?, ?);",
+            "VALUES (?, ?, ?, ?);",
             to_db)
         con.commit()
         con.close()
+        print(f'БД {name_file_category} успешно импортирована')
 
 
 # id,username,email,role,bio,first_name,last_name
@@ -182,7 +188,7 @@ def import_users():
     con = sqlite3.connect(path_for_db)
     cur = con.cursor()
     try:
-        cur.execute("""CREATE TABLE reviews_users (
+        cur.execute("""CREATE TABLE users_user (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT,
             email TEXT,
@@ -205,19 +211,40 @@ def import_users():
                  i['last_name']) for i in dr]
 
         cur.executemany(
-            "INSERT INTO reviews_users "
-            "(id, username, email, role, bio, first_name, last_name) "
-            "VALUES (?, ?, ?, ?, ?, ?, ?);",
+            "INSERT INTO users_user "
+            "(id, username, email, role, bio, first_name, last_name, password) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?, 1234567890);",
             to_db)
         con.commit()
         con.close()
+        print(f'БД {name_file_category} успешно импортирована')
 
 
-import_category()
-import_genre()
-import_titles()
-import_genre_title()
-
-import_comments()
-import_review()
-import_users()
+# try:
+#     import_category()
+# except Exception as err:
+#     print(f'Импорт не удался {err}')
+# try:
+#     import_genre()
+# except Exception as err:
+#     print(f'Импорт не удался {err}')
+# try:
+#     import_titles()
+# except Exception as err:
+#     print(f'Импорт не удался {err}')
+# try:
+#     import_genre_title()
+# except Exception as err:
+#     print(f'Импорт не удался {err}')
+# try:
+#     import_comments()
+# except Exception as err:
+#     print(f'Импорт не удался {err}')
+# try:
+#     import_review()
+# except Exception as err:
+#     print(f'Импорт не удался {err}')
+try:
+    import_users()
+except Exception as err:
+    print(f'Импорт не удался {err}')

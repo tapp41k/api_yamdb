@@ -1,0 +1,195 @@
+## КАТЕГОРИИ
+###  Получить все КАТЕГОРИИ
+GET http://127.0.0.1:8000/api/v1/categories/
+
+
+### Получить категорию 1
+GET http://127.0.0.1:8000/api/v1/categories/Category2/
+
+### Добавить категорию не авторизованному
+POST http://127.0.0.1:8000/api/v1/categories/
+Content-Type: application/json
+
+{
+    "name": "категория 2 тест",
+    "slug": "Category2"
+} 
+
+### Удалить категорию 2
+DELETE  http://127.0.0.1:8000/api/v1/categories/2/
+Content-Type: application/json
+
+{
+    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg0OTU1MTI1LCJpYXQiOjE2ODQ4Njg3MjUsImp0aSI6ImEwYWQxZGY3NDg5ZTQ1NWVhMGQxYjM2NjU1YzQ1MzQzIiwidXNlcl9pZCI6MX0.DhAWKrmUMNmGyZQiBdr0RUI8VSfONYI1L8xKIEuDHwE",
+    "slug": "Category2"
+}
+
+## ЖАНРЫ
+###  Получить все жанры
+GET http://127.0.0.1:8000/api/v1/genres/
+
+
+### Получить жанр 1
+GET http://127.0.0.1:8000/api/v1/genres/genre1/
+
+### Добавить жанр
+POST http://127.0.0.1:8000/api/v1/genres/
+Content-Type: application/json
+
+{
+    "name": "тестовый жанр1",
+    "slug": "genre1"
+} 
+
+## ПРОИЗВЕДЕНИЯ
+###  Получить все произведения
+GET http://127.0.0.1:8000/api/v1/titles/
+
+### Добавить произведение
+POST http://127.0.0.1:8000/api/v1/titles/
+Content-Type: application/json
+
+{
+    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg0OTc0NDc4LCJpYXQiOjE2ODQ4ODgwNzgsImp0aSI6IjY0ZTY5ZDQwMGFmMjRmZmVhOTM2OTQ2ZDc4MjlkNTVhIiwidXNlcl9pZCI6MX0.K1_AB0Z8JVN5T11oNRW9ToZfO_kcADSU8Jb8gLPGRj0",
+    "name": "тестовое название4",
+    "year": "1998",
+    "description": "тестовое описание 4",
+    "genre": ["genre1"],
+    "category": "Category1"
+} 
+
+### Добавить произведение
+POST http://127.0.0.1:8000/api/v1/titles/
+Content-Type: application/json
+
+{
+    "name": "тестовое название1",
+    "year": "1998",
+    "description": "тестовое описание 1",
+    "genre": ["genre1"],
+    "category": "Category1"
+} 
+
+
+### Изменить произведение
+PATCH http://127.0.0.1:8000/api/v1/titles/1/
+Content-Type: application/json
+
+{
+    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg0OTc3Mzc5LCJpYXQiOjE2ODQ4OTA5NzksImp0aSI6ImQ2M2ZhNDk2ZWU5NDQxNWJhNzliOTA4Y2M1MTU1YmM2IiwidXNlcl9pZCI6MX0.HW2Jz1L5a4WnS3E71ji59naayjkgalEb8hlUn6udld0",
+    "name": "тестовое название_новое2"
+} 
+
+### Изменить произведение
+PATCH http://127.0.0.1:8000/api/v1/titles/1/
+Content-Type: application/json
+
+{
+    "category": "Category2"
+} 
+
+### Получить произведение 1
+GET http://127.0.0.1:8000/api/v1/titles/1/
+
+### Получить произведение - фильтр name
+GET http://127.0.0.1:8000/api/v1/titles/?name=тестовое название
+
+### Получить произведение - фильтр year
+GET http://127.0.0.1:8000/api/v1/titles/?year=1997
+
+### Получить произведение - фильтр category
+GET http://127.0.0.1:8000/api/v1/titles/?category=1
+
+### Получить произведение - фильтр genre
+GET http://127.0.0.1:8000/api/v1/titles/?genre=1
+
+### Получить категории - поиск
+GET http://127.0.0.1:8000/api/v1/categories/?search=Катег
+
+### Получить жанру - поиск
+GET http://127.0.0.1:8000/api/v1/genres/?search=Жанр
+
+### Получить ревью произведения
+GET http://127.0.0.1:8000/api/v1/titles/28/reviews/
+
+
+
+
+
+
+
+
+### Добавить пост Авторизованному
+POST http://127.0.0.1:8000/api/v1/titles/
+content-type:application/json
+
+{
+    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg0ODcxNjMzLCJpYXQiOjE2ODQ3ODUyMzMsImp0aSI6ImZkNWY5MTJmMWU5MzRmYzFhMzJmODVhNDQ1NTI3YTcxIiwidXNlcl9pZCI6MX0.cYoVpCmQM37rPCYzZZ8Liik9kfGUYVd7QDJHa4x5jf0"
+} 
+{
+    "name": "Тестовое название1",
+    "year": "1997",
+    "genre": "Тестовый жанр1",
+    "category": "Тестовая категория1"
+}
+
+### Получить все группы
+get http://127.0.0.1:8000/api/v1/groups/
+
+### Добавить группу
+POST http://127.0.0.1:8000/api/v1/groups/
+Content-Type: application/json
+
+{
+    "title": "group_test1_title",
+    "slug": "group_test1",
+    "description": "test group"
+} 
+
+### Получить все комментарии к посту
+get http://127.0.0.1:8000/api/api/v1/posts/1/comments/
+
+### Добавить комментарий к посту
+POST http://127.0.0.1:8000/api/api/v1/posts/1/comments/
+Content-Type: application/json
+
+{
+    "author": "2",
+    "text": "комментарий2",
+    "post": "1"
+} 
+
+
+
+
+### автоизоваться
+POST http://127.0.0.1:8000/api/v1/auth/signup/
+content-type: application/json
+
+{
+  "username": "admin",
+  "email": "av.kashirina@gmail.com",
+  "password": "!QAZxsw@12"
+}
+
+###  Создать токен
+POST http://127.0.0.1:8000/api/v1/auth/token/
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "!QAZxsw@12",
+    "confirmation_code": "confirmation_code_123"
+}
+
+### Посмотреть всех пользователей
+get http://127.0.0.1:8000/api/v1/jwt/user/
+
+### Посмотреть всех пользователей
+get http://127.0.0.1:8000/api/v1/follow/
+
+
+
+curl --header "content-type:application/json" --header "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg0OTc0NDc4LCJpYXQiOjE2ODQ4ODgwNzgsImp0aSI6IjY0ZTY5ZDQwMGFmMjRmZmVhOTM2OTQ2ZDc4MjlkNTVhIiwidXNlcl9pZCI6MX0.K1_AB0Z8JVN5T11oNRW9ToZfO_kcADSU8Jb8gLPGRj0" \
+--data '{"name": "Тестовое название5", "year": "1995", "genre": ["genre1"], "category": "Category1"}' \
+--request POST http://127.0.0.1:8000/api/v1/titles
