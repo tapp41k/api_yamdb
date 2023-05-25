@@ -7,9 +7,6 @@ from reviews.models import Review, Comment, Title, Genre, Category
 
 class GenresSerializer(serializers.ModelSerializer):
 
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
-
     class Meta:
         model = Genre
         fields = ('name', 'slug')
@@ -26,7 +23,12 @@ class CategoriesSerializer(serializers.ModelSerializer):
 
 class TitleSerializer(serializers.ModelSerializer):
     genre = GenresSerializer(many=True,)
-    category = CategoriesSerializer()
+    category = serializers.SlugRelatedField(
+        slug_field='slug', queryset=Category.objects.all()
+    )
+    rating = serializers.IntegerField(
+        source='reviews_title__score__avg', read_only=True
+    )
 
     class Meta:
         model = Title
@@ -44,18 +46,33 @@ class TitleSerializerForCreate(serializers.ModelSerializer):
 
     class Meta:
         model = Title
-        fields = ('id', 'name', 'year', 'category', 'genre')
+        fields = '__all__'
 
 
 class TitleSerializerForRetrieve(serializers.ModelSerializer):
+    genre = GenresSerializer(many=True,)
+    category = CategoriesSerializer()
+    rating = serializers.IntegerField(
+        source='reviews_title__score__avg', read_only=True
+    )
+
+    class Meta:
+        model = Title
+        fields = '__all__'
+
+
+class TitleSerializerForList(serializers.ModelSerializer):
     genre = serializers.SlugRelatedField(
         slug_field='slug', many=True, queryset=Genre.objects.all()
     )
     category = CategoriesSerializer()
+    rating = serializers.IntegerField(
+        source='reviews_title__score__avg', read_only=True
+    )
 
     class Meta:
         model = Title
-        fields = ('id', 'name', 'year', 'category', 'genre', 'rating')
+        fields = '__all__'
 
 
 class ReviwSerializer(serializers.ModelSerializer):

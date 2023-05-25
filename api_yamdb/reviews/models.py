@@ -48,7 +48,7 @@ class Title(models.Model):
     )
     description = models.TextField(
         verbose_name='Описание',
-        null=True,
+        # null=True,
         blank=True
     )
     genre = models.ManyToManyField(
@@ -70,6 +70,10 @@ class Title(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Название'
+        ordering = ['name']
 
 
 class GenreTitle(models.Model):

@@ -30,7 +30,7 @@ GET http://127.0.0.1:8000/api/v1/genres/
 
 
 ### Получить жанр 1
-GET http://127.0.0.1:8000/api/v1/genres/genre1/
+GET http://127.0.0.1:8000/api/v1/genres/1/
 
 ### Добавить жанр
 POST http://127.0.0.1:8000/api/v1/genres/
@@ -63,9 +63,9 @@ POST http://127.0.0.1:8000/api/v1/titles/
 Content-Type: application/json
 
 {
-    "name": "тестовое название1",
-    "year": "1998",
-    "description": "тестовое описание 1",
+    "name": "тестовое название4",
+    "year": "1992",
+    "description": "тестовое описание 4",
     "genre": ["genre1"],
     "category": "Category1"
 } 
@@ -89,7 +89,7 @@ Content-Type: application/json
 } 
 
 ### Получить произведение 1
-GET http://127.0.0.1:8000/api/v1/titles/1/
+GET http://127.0.0.1:8000/api/v1/titles/3/
 
 ### Получить произведение - фильтр name
 GET http://127.0.0.1:8000/api/v1/titles/?name=тестовое название
