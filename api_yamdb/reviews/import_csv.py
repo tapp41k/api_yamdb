@@ -212,7 +212,7 @@ def import_users():
 
         cur.executemany(
             "INSERT INTO users_user "
-            "(id, username, email, role, bio, first_name, last_name, password) "
+            "(id, username, email, role, bio, first_name, last_name, password)"
             "VALUES (?, ?, ?, ?, ?, ?, ?, 1234567890);",
             to_db)
         con.commit()
