@@ -63,7 +63,6 @@ class Title(models.Model):
         related_name='titles',
     )
 
-
     def __str__(self):
         return self.name
 
