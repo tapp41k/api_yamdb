@@ -62,11 +62,7 @@ class Title(models.Model):
         on_delete=models.CASCADE,
         related_name='titles',
     )
-    rating = models.IntegerField(
-        verbose_name='Оценка',
-        null=True,
-        default=0
-    )
+
 
     def __str__(self):
         return self.name
@@ -94,7 +90,7 @@ class Review(models.Model):
     title = models.ForeignKey(
         Title,
         on_delete=models.CASCADE,
-        related_name='reviews_title',
+        related_name='reviews',
         verbose_name='Произведение'
     )
     text = models.TextField()
@@ -104,7 +100,7 @@ class Review(models.Model):
         related_name='reviews_author',
         verbose_name='Автор'
     )
-    score = models.IntegerField(
+    score = models.PositiveSmallIntegerField(
         'Оценка',
         validators=[
             MinValueValidator(1),

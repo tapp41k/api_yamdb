@@ -28,7 +28,7 @@ class TitleSerializer(serializers.ModelSerializer):
     genre = GenresSerializer(many=True,)
     category = CategoriesSerializer(many=False,)
     rating = serializers.IntegerField(
-        source='reviews_title__score__avg', read_only=True
+        source='reviews__score__avg', read_only=True
     )
 
     class Meta:
@@ -60,7 +60,7 @@ class TitleSerializerForRetrieve(serializers.ModelSerializer):
         fields = ('id', 'name', 'year', 'category', 'genre', 'rating')
 
 
-class ReviwSerializer(serializers.ModelSerializer):
+class ReviewSerializer(serializers.ModelSerializer):
     title = serializers.SlugRelatedField(
         slug_field='name',
         read_only=True,
