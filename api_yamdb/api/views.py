@@ -11,7 +11,7 @@ from .serializers import (CategoriesSerializer,
                           GenresSerializer,
                           TitleSerializer,
                           TitleSerializerForCreate,
-                          ReviwSerializer,
+                          ReviewSerializer,
                           CommentSerializer)
 
 from .filters import TitleFilter
@@ -20,12 +20,12 @@ from .mixins import CreateListDestroyViewSet
 
 class TitleViewSet(viewsets.ModelViewSet):
     queryset = Title.objects.annotate(
-        Avg("reviews_title__score")
+        Avg("reviews__score")
     )
     serializer_class = TitleSerializer
 
     permission_classes = [IsAdminOrReadOnly]
-    pagination_class = PageNumberPagination
+    pagination_class = pagination.LimitOffsetPagination
 
     filter_backends = (DjangoFilterBackend,)
     filterset_class = TitleFilter
@@ -62,7 +62,7 @@ class CategoriesViewSet(CreateListDestroyViewSet):
 
 class ReviewViewSet(viewsets.ModelViewSet):
     pagination_class = PageNumberPagination
-    serializer_class = ReviwSerializer
+    serializer_class = ReviewSerializer
     permission_classes = (IsAuthorAdminModeratorOrReadOnly,)
 
     def get_title(self):
