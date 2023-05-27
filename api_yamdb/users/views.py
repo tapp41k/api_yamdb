@@ -12,7 +12,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from users.permissions import IsAdminRole
+from api.permission import IsAdminRole
 from users.serializers import (ReadonlyRoleSerializer, SignupSerializer,
                                TokenSerializer, UsersSerializer)
 
@@ -20,6 +20,17 @@ User = get_user_model()
 
 
 class APISignupView(APIView):
+
+    def send_confirmation_code(self, user):
+        send_mail(
+            subject='Ваш код доступа к YamDB',
+            message='Ваш данные для доступа к YamDB \n'
+            f'Ваше имя пользователя: {user.username} \n'
+            f'Ваш код доступа к API: {user.confirmation_code}',
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[user.email],
+            fail_silently=False,
+        )
 
     def post(self, request):
         """
@@ -42,16 +53,28 @@ class APISignupView(APIView):
                     {'error': 'Пользователь с этим именем '
                               'или e-mail уже существует'},
                     status=status.HTTP_400_BAD_REQUEST)
-        send_mail(
-            subject='Ваш код доступа к YamDB',
-            message='Ваш данные для доступа к YamDB \n'
-            f'Ваше имя пользователя: {user.username} \n'
-            f'Ваш код доступа к API: {user.confirmation_code}',
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[user.email],
-            fail_silently=False,
-        )
+
+        self.send_confirmation_code(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class ResendConfirmationCodeView(APIView):
+    def post(self, request):
+        username = request.data.get('username')
+        email = request.data.get('email')
+
+        try:
+            user = User.objects.get(username=username, email=email)
+        except User.DoesNotExist:
+            return Response(
+                {'error': 'Пользователь с указанными данными не найден'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        signup_view = APISignupView()
+        signup_view.send_confirmation_code(user)
+        return Response({'success': 'Код подтверждения отправлен повторно'},
+                        status=status.HTTP_200_OK)
 
 
 class APITokenView(APIView):

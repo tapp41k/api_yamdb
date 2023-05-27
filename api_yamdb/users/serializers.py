@@ -20,7 +20,8 @@ class SignupSerializer(serializers.ModelSerializer):
         fields = ('username', 'email')
 
     def validate_username(self, value):
-        if value == 'me':
+        valueLower = value.lower()
+        if valueLower == 'me':
             raise serializers.ValidationError(
                 'С этим именем зарегистрироваться невозможно'
             )
