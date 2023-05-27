@@ -1,3 +1,5 @@
+import datetime
+
 from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
@@ -30,6 +32,12 @@ class TitleSerializer(serializers.ModelSerializer):
     rating = serializers.IntegerField(
         source='reviews__score__avg', read_only=True
     )
+
+    def validate_year(self, value):
+        year = datetime.date.today().year
+        if value > year:
+            raise serializers.ValidationError('Проверьте год издания.')
+        return value
 
     class Meta:
         model = Title
