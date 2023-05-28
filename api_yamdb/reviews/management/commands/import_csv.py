@@ -55,6 +55,8 @@ def add_values(data_csv):
 
 def load_csv(file_name, class_name, data):
     rows = data[1:]
+    if not (rows):
+        raise Exception(f'БД {file_name}.csv нет данных для загрузки')
     for row in rows:
         data_csv = dict(zip(data[0], row))
         data_csv = add_values(data_csv)
@@ -77,6 +79,8 @@ class Command(BaseCommand):
             print(f'Импорт БД в таблицу {value.__qualname__}')
             try:
                 data = open_file(key)
+                if not (data):
+                    raise Exception(f'БД {key}.csv пуста')
                 try:
                     import_csv = load_csv(key, value, data)
                     self.stdout.write(self.style.SUCCESS(import_csv))

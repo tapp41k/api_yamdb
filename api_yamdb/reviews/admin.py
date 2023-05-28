@@ -68,7 +68,6 @@ class TitleAdmin(admin.ModelAdmin):
         'year',
         'description',
         'category',
-        'rating',
     )
     inlines = (
         GenreInline,
